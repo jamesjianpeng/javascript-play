@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+  function objectFactory () {
+    // var obj = Object.create(null)
+    var obj = new Object();
+    var constructor = [].shift.call(arguments) // 获取构造函数，arguments 参数也会改变
+    obj.__proto__ = constructor.prototype
+    var ret = constructor.apply(obj, arguments)
+    return typeof ret === 'object' ? ret : obj
+  }
+
+  function Car (width, height, color) {
+    this.width = width
+    this.height = height
+    this.color = color || '白色'
+  }
+  Car.prototype.showSize = function () {
+    console.log(this.width)
+    console.log(this.height)
+    console.log(this.color)
+  }
+  // 使用 new 操作符
+  var car1 = new Car(100, 100, '黑色')
+  console.log(car1)
+  car1.showSize()
+
+  // 模拟 new 操作符做的事情
+  var car2 = objectFactory(Car, 200, 200, '黄色')
+  console.log(car2)
+  car2.showSize()
+
+  </script>
+</body>
+</html>
